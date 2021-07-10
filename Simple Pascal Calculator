@@ -1,0 +1,135 @@
+program SimpleCalculator;
+
+uses math, SysUtils;
+
+var s_n1, s_n2, op : string;
+    n1, n2, total : real;
+
+    function IsNumericString(s: string): boolean;
+    var
+      i: integer;
+    begin
+      for i:= 1 to length(s) do
+        if not (s[i] in ['0'..'9','-','.']) then
+          exit(false);
+
+      exit(true);
+    end;
+
+    function IsSupportedOperator(s: string): boolean;
+    var
+      i: integer;
+    begin
+      i := 1;
+      if length(s) > 1 then
+         exit(false);
+
+      if s[i] in ['+', '-', '*', '/', '^', '%', '\', '|', '_'] then
+         exit(true);
+
+      exit(false);
+    end;
+
+begin
+    writeln ('Welcome to my simple calculator program.' + lineending + 'This is created by Sanithu Methjaya - 11 C' + lineending + '' + lineending + 'Want help?. Just type help.' + lineending + '');
+    write ('Enter your first number : ');
+    readln (s_n1);
+
+    if s_n1 = ('help') then
+         begin
+              writeln();
+              writeln ('"+" - addiction' + lineending + '"-" - subtraction' + lineending + '"*" - multiplication' + lineending + '"/" - division' + lineending + '"^" - power' + lineending + '"%" - modular' + lineending + '"\" - division(remainder)');
+              readln();
+              exit();
+         end;
+
+    if not (IsNumericString(s_n1)) then
+       begin
+            writeln();
+            writeln ('Invalid, try using numbers');
+            writeln();
+            writeln ('Press enter to exit...');
+            readln();
+            exit();
+       end;
+
+    if (length(s_n1) < 1) then
+         begin
+              writeln();
+              writeln ('Not allowed, type any character.');
+              writeln();
+              writeln ('Press enter to exit...');
+              readln();
+              exit();
+         end;
+
+    n1 := StrToFloat(s_n1);
+
+    write ('Enter a operator Example:- +, -, *, / etc... : ');
+    readln (op);
+
+    if Not(IsSupportedOperator(op)) then
+       begin
+          writeln();
+          writeln ('Not supported operator. Please press enter key to exit!');
+          readln();
+          exit();
+       end;
+
+    write ('Enter your second number : ');
+    readln (s_n2);
+    if not (IsNumericString(s_n2)) then
+       begin
+            writeln();
+            writeln ('Invalid, try using numbers');
+            writeln();
+            writeln ('Press enter to exit...');
+            readln();
+            exit();
+       end;
+
+    if (length(s_n2) < 1) then
+         begin
+              writeln();
+              writeln ('Not allowed, type any character.');
+              writeln();
+              writeln ('Press enter to exit...');
+              readln();
+              exit();
+         end;
+
+    n2 := StrToFloat(s_n2);
+
+    if (op = '/') and (n2 = 0) then
+       begin
+            writeln();
+            writeln ('undefined. Please press enter key to exit!');
+            readln();
+            exit();
+       end;
+
+    case op of
+        '+' : total := n1 + n2;
+        '-' : total := n1 - n2;
+        '*' : total := n1 * n2;
+        '/' : total := n1 / n2;
+        '^' : total := power(n1, n2);
+        '%' : total := round(n1) mod round(n2);
+        '\' : total := round(n1) div round(n2);
+    else
+        writeln();
+        writeln ('Not yet implemented.');
+        writeln();
+        writeln ('Press enter to exit...');
+        readln();
+        exit();
+    end;
+
+    writeln();
+    writeln (total:0:2);
+    writeln();
+    writeln ('Send me your feedback.');
+    writeln();
+    writeln ('Press enter to exit...');
+    readln();
+end.
